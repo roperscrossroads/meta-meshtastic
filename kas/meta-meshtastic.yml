@@ -1,0 +1,14 @@
+header:
+  version: 19
+
+repos:
+  meta-meshtastic:
+    path: meta-meshtastic
+
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    branch: wrynose
+    commit: af8b6d6b2f0b11595b0a0d5b82efa3129d52a628
+    layers:
+      meta-oe:
+      meta-python:

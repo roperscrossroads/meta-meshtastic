@@ -1,0 +1,3 @@
+# Nothing here is generated, so this is short on purpose.
+*.pyc
+__pycache__/
