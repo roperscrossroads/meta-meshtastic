@@ -24,3 +24,23 @@ RDEPENDS:${PN} += "\
     python3-pypng \
     python3-wcwidth \
 "
+
+# ── mesh-analysis IS NOT SHIPPED ─────────────────────────────────────────────
+# The package declares a `mesh-analysis` console script and ships the
+# meshtastic.analysis package behind it. That is a desktop tool for reviewing
+# power-monitor logs: it serves a Dash web app and imports pandas, numpy,
+# pyarrow, plotly, dash and dash-bootstrap-components at module level — the
+# upstream `analysis` extra, which this layer does not package and which does
+# not belong on a small ARM target. Installed without them, `mesh-analysis`
+# fails with ModuleNotFoundError the moment anyone runs it. Removing both the
+# entry point and the package it points at means the command is simply absent
+# rather than present and broken.
+#
+# meshtastic.powermon and meshtastic.slog stay: __main__ imports them inside a
+# try/except ImportError, so their missing optional dependencies (ppk2_api,
+# parse) only disable the power-monitor options instead of breaking the CLI.
+do_install:append() {
+    rm -f ${D}${bindir}/mesh-analysis
+    rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/meshtastic/analysis
+}
+
